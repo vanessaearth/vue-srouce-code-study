@@ -39,10 +39,13 @@ export class Observer {
   dep: Dep;
   vmCount: number; // number of vms that have this object as root $data
 
-  constructor (value: any) {
+  constructor(value: any) {
     this.value = value
+    // 数组添加删除成员，dep通知组件更新
+    // 对象添加删除属性，dep通知组件更新
     this.dep = new Dep()
     this.vmCount = 0
+    // 定义__ob__保存当前observer实例
     def(value, '__ob__', this)
     if (Array.isArray(value)) {
       if (hasProto) {
@@ -50,8 +53,10 @@ export class Observer {
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
       }
+      // 遍历数组中项目
       this.observeArray(value)
     } else {
+      // 对象的响应式
       this.walk(value)
     }
   }
@@ -121,6 +126,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
     Object.isExtensible(value) &&
     !value._isVue
   ) {
+    //初始化创建
     ob = new Observer(value)
   }
   if (asRootData && ob) {
@@ -139,6 +145,7 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
+  // 创建key对应的管家
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
@@ -160,6 +167,7 @@ export function defineReactive (
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
       if (Dep.target) {
+        //dep和watcher互相建立关系，多对多
         dep.depend()
         if (childOb) {
           childOb.dep.depend()

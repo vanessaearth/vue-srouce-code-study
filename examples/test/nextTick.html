@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">{{foo}}</div>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          foo: "ready...",
+        },
+        mounted() {
+          this.foo = 1;
+          console.log("1:", this.foo);
+          this.foo = 2;
+          console.log("2:", this.foo);
+          this.foo = 3;
+          console.log("3:", this.foo);
+          console.log("app.innerHtml", app.innerHTML);
+          this.$nextTick(() => {
+            console.log("app:", app.innerHTML);
+          });
+        },
+      });
+    </script>
+  </body>
+</html>

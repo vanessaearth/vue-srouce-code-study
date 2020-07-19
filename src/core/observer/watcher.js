@@ -42,7 +42,7 @@ export default class Watcher {
   getter: Function;
   value: any;
 
-  constructor (
+  constructor(
     vm: Component,
     expOrFn: string | Function,
     cb: Function,
@@ -125,12 +125,14 @@ export default class Watcher {
   /**
    * Add a dependency to this directive.
    */
+  // 增加一个依赖项
   addDep (dep: Dep) {
     const id = dep.id
     if (!this.newDepIds.has(id)) {
       this.newDepIds.add(id)
       this.newDeps.push(dep)
       if (!this.depIds.has(id)) {
+        // 再把watcher添加到dep保存
         dep.addSub(this)
       }
     }
@@ -168,6 +170,7 @@ export default class Watcher {
     } else if (this.sync) {
       this.run()
     } else {
+      //watch入队
       queueWatcher(this)
     }
   }

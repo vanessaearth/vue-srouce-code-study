@@ -99,6 +99,7 @@ export function nextTick (cb?: Function, ctx?: Object) {
   })
   if (!pending) {
     pending = true
+    // 时间函数
     timerFunc()
   }
   // $flow-disable-line

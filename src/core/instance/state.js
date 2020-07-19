@@ -79,7 +79,7 @@ function initProps (vm: Component, propsOptions: Object) {
     if (process.env.NODE_ENV !== 'production') {
       const hyphenatedKey = hyphenate(key)
       if (isReservedAttribute(hyphenatedKey) ||
-          config.isReservedAttr(hyphenatedKey)) {
+        config.isReservedAttr(hyphenatedKey)) {
         warn(
           `"${hyphenatedKey}" is a reserved attribute and cannot be used as component prop.`,
           vm
@@ -108,7 +108,7 @@ function initProps (vm: Component, propsOptions: Object) {
   }
   toggleObserving(true)
 }
-
+//method,prop声明的key，data不能再声明
 function initData (vm: Component) {
   let data = vm.$options.data
   data = vm._data = typeof data === 'function'
@@ -144,10 +144,11 @@ function initData (vm: Component) {
         vm
       )
     } else if (!isReserved(key)) {
+      // 数据代理
       proxy(vm, `_data`, key)
     }
   }
-  // observe data
+  // observe data，定义数据响应化
   observe(data, true /* asRootData */)
 }
 
@@ -227,7 +228,7 @@ export function defineComputed (
     sharedPropertyDefinition.set = userDef.set || noop
   }
   if (process.env.NODE_ENV !== 'production' &&
-      sharedPropertyDefinition.set === noop) {
+    sharedPropertyDefinition.set === noop) {
     sharedPropertyDefinition.set = function () {
       warn(
         `Computed property "${key}" was assigned to but it has no setter.`,
@@ -253,7 +254,7 @@ function createComputedGetter (key) {
   }
 }
 
-function createGetterInvoker(fn) {
+function createGetterInvoker (fn) {
   return function computedGetter () {
     return fn.call(this, this)
   }

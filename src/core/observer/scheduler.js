@@ -92,6 +92,7 @@ function flushSchedulerQueue () {
     }
     id = watcher.id
     has[id] = null
+    // watcher真正的执行函数
     watcher.run()
     // in dev build, check and stop circular updates.
     if (process.env.NODE_ENV !== 'production' && has[id] != null) {
@@ -163,9 +164,11 @@ function callActivatedHooks (queue) {
  */
 export function queueWatcher (watcher: Watcher) {
   const id = watcher.id
+  // 去重，防止同样的watcher多次入队，保证只会入队一次
   if (has[id] == null) {
     has[id] = true
     if (!flushing) {
+      // 入队
       queue.push(watcher)
     } else {
       // if already flushing, splice the watcher based on its id
@@ -184,6 +187,7 @@ export function queueWatcher (watcher: Watcher) {
         flushSchedulerQueue()
         return
       }
+      // 异步方式执行属性队列的方法，刷新队列
       nextTick(flushSchedulerQueue)
     }
   }

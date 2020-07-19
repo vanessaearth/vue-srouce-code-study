@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../../dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">app</div>
+    <script>
+      const app = new Vue({
+        el: "#app",
+        data: {
+          // arr: ["foo", "bar"],
+          // user: {
+          //   name: {
+          //     first: "tom",
+          //   },
+          //   age: 2,
+          // },
+          obj: { foo: "foo" },
+        },
+        mounted() {
+          console.log(this.$data);
+          setTimeout(() => {
+            this.arr.push("baz");
+            console.log(this.arr);
+          }, 1000);
+        },
+      });
+    </script>
+  </body>
+</html>
